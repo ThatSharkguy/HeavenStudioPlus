@@ -210,7 +210,35 @@ namespace HeavenStudio.Games
 
         public void Dance(double beat, float length)
         {
+            for (int i = 0; i < length; i++)
+            {
+                ScheduleInput(beat - 1, 1 + i, InputAction_BasicPress, DanceHit, DanceMiss, null);
+                foreach (var flower in flowers)
+                {
+                    BeatAction.New(this, new List<BeatAction.Action>()
+                    {
+                        new BeatAction.Action(beat + i, delegate { flower.Dance(true); }),
+                        new BeatAction.Action(beat + i, delegate { SoundByte.PlayOneShotGame("gardenDance/dance"); })
+                    });
+                }
+                
+            }
+        }
 
+        private void DanceHit(PlayerActionEvent caller, float state)
+        {
+            if (state >= 1f || state <= -1f)
+            {
+                flowerPlayer.Dance(true, true);
+                return;
+            }
+            flowerPlayer.Dance(true, false);
+            SoundByte.PlayOneShotGame("gardenDance/dance");
+        }
+
+        private void DanceMiss(PlayerActionEvent caller)
+        {
+            
         }
 
         public void Pose(double beat)

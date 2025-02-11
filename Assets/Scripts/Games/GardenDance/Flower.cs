@@ -32,5 +32,11 @@ namespace HeavenStudio.Games.Scripts_GardenDance
             anim.DoScaledAnimationAsync("IdleFace", 0.5f, animLayer: 1);
             canBlink = true;
         }
+
+        public void Dance(bool hit, bool barely = false)
+        {
+            anim.DoScaledAnimationAsync("Dance", 0.5f, animLayer: 0);
+            if (barely) anim.DoScaledAnimationAsync("Barely", 0.5f, animLayer: 1);
+        }
     }
 }
